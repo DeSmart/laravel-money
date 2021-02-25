@@ -12,6 +12,21 @@ use Illuminate\Database\Eloquent\Model;
 class Money implements CastsAttributes
 {
     /**
+     * @var string
+     */
+    private string $currencyAttribute = 'currency';
+
+    /**
+     * @param string ...$args
+     */
+    public function __construct(string ...$args)
+    {
+        if (count($args) === 1) {
+            $this->currencyAttribute = $args[0];
+        }
+    }
+
+    /**
      * @param Model $model
      * @param string $key
      * @param int|null $value
@@ -24,7 +39,7 @@ class Money implements CastsAttributes
             return null;
         }
 
-        return MoneyFactory::fromInteger($value, $attributes['currency'] ?? MoneyFactory::$defaultCurrency);
+        return MoneyFactory::fromInteger($value, $attributes[$this->currencyAttribute] ?? MoneyFactory::$defaultCurrency);
     }
 
     /**
