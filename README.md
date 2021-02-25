@@ -1,4 +1,4 @@
-# Laravel Money
+# Laravel Money 💶
 
 [![Latest version](https://img.shields.io/packagist/v/desmart/laravel-money.svg?style=flat)](https://github.com/DeSmart/laravel-money)
 ![Tests](https://github.com/desmart/laravel-money/workflows/Run%20Tests/badge.svg)
@@ -51,11 +51,12 @@ registered, default `\Money\Formatter\DecimalMoneyFormatter` formatter will be u
 
 This package ships with an additional formatter, `\DeSmart\Larvel\Money\Formatters\IntlDecimalMoneyFormatter`, which 
 allows defining a particular format in which money value should be presented. There are few defaults (as consts):
-- display only amount (`{AMOUN}`),
+- display only amount (`{AMOUNT}`),
 - display currency and amount (`{CURRENCY}{AMOUNT}`),
 - display currency and amount, separated with space (`{CURRENCY}{SPACE}{AMOUNT}`),
 - display amount and currency (`{AMOUNT}{CURRENCY}`),
 - display amount and currency, separated with space (`{AMOUNT}{SPACE}{CURRENCY}`).
+
 Any other format can be used, as long as it utilizes three keywords: `{AMOUNT}`, `{CURRENCY}`, `{SPACE}`.
 Along with the format, decimal and thousands separators can be defined.
   
@@ -64,11 +65,11 @@ Registering formatter is fairly easy:
 // For example, in AppServiceProvider.php
 
 \DeSmart\Larvel\Money\MoneyFormatter::formatUsing(
-    new \DeSmart\Larvel\Money\Formatters\IntlDecimalMoneyFormatter('{AMOUNT}{CURRENCy}', ',', ' ')
+    new \DeSmart\Larvel\Money\Formatters\IntlDecimalMoneyFormatter('{AMOUNT}{CURRENCY}', ',', ' ')
 );
 ```
 
-### Laravel attribute casting
+### Laravel model attribute casting
 Package provides also a custom casting class that allows to use `\Money\Money` objects with Laravel models.
 
 ```php
@@ -77,7 +78,16 @@ protected $casts = [
 ];
 ```
 
-Casting class gets/sets money-like value from/to the model and also has a method that serializes `\Money\Money` objects
+By default, while casting value to money object, `currency` attribute will be used as a currency (or default application
+currency if there is no `currency` attribute in the model). If there is a need for custom attribute name from which 
+currency is taken, such an attribute can be defined in model's `$casts` array, like this:
+```php
+protected $casts = [
+    'money' => \DeSmart\Larvel\Money\Casts\Money::class . ':my_custom_currency_attribute',
+];
+```
+
+Casting class gets/sets money-like value from/to the model and also has a method for serializing `\Money\Money` objects
 to an array (when `toArray` or `toJson` methods are used on the model):
 ```php
 [

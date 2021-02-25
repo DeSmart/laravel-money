@@ -70,6 +70,31 @@ class MoneyAttributeCastTest extends TestCase
         $this->assertContains('USD', $modelToArray['money']); //currency
         $this->assertContains(10.0, $modelToArray['money']); //float
     }
+
+    /** @test */
+    public function it_should_get_money_object_including_custom_currency_attribute(): void
+    {
+        $model = new TestModelWithCustomCurrencyAttribute();
+        $model->setRawAttributes(['money' => 1000, 'custom_currency' => 'ZWL']);
+
+        $attribute = $model->getAttribute('money');
+
+        $this->assertInstanceOf(\Money\Money::class, $attribute);
+        $this->assertEquals('1000', $attribute->getAmount());
+        $this->assertEquals('ZWL', $attribute->getCurrency()->getCode());
+    }
+
+    /** @test */
+    public function it_should_serialize_money_attribute_including_custom_currency_attribute(): void
+    {
+        $model = new TestModelWithCustomCurrencyAttribute(['money' => 1000, 'custom_currency' => 'ZWL']);
+
+        $modelToArray = $model->toArray();
+
+        $this->assertContains('1000', $modelToArray['money']); //amount
+        $this->assertContains('ZWL', $modelToArray['money']); //currency
+        $this->assertContains(10.0, $modelToArray['money']); //float
+    }
 }
 
 class TestModel extends Model
@@ -84,5 +109,20 @@ class TestModel extends Model
      */
     protected $casts = [
         'money' => Money::class,
+    ];
+}
+
+class TestModelWithCustomCurrencyAttribute extends Model
+{
+    /**
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'money' => Money::class . ':custom_currency',
     ];
 }
