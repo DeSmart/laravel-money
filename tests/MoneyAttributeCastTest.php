@@ -123,6 +123,6 @@ class TestModelWithCustomCurrencyAttribute extends Model
      * @var array
      */
     protected $casts = [
-        'money' => Money::class, ':custom_currency',
+        'money' => Money::class . ':custom_currency',
     ];
 }
