@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace DeSmart\Larvel\Money;
 
-use Money\Currencies\ISOCurrencies;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 
@@ -19,7 +18,7 @@ class MoneyFormatter
 
     public static function getFormatter(): \Money\MoneyFormatter
     {
-        return self::$formatter ?? new DecimalMoneyFormatter(new ISOCurrencies());
+        return self::$formatter ?? new DecimalMoneyFormatter(MoneyFactory::getCurrencies());
     }
 
     public static function prettyPrint(Money $money, bool $htmlEntities = false): string

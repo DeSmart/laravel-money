@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace DeSmart\Larvel\Money\Formatters;
 
-use Money\Currencies\ISOCurrencies;
+use DeSmart\Larvel\Money\MoneyFactory;
+use Money\Currencies;
 use Money\Money;
 use Money\MoneyFormatter;
 
@@ -19,23 +20,24 @@ class IntlDecimalMoneyFormatter implements MoneyFormatter
     private string $format;
     private string $decimalSeparator;
     private string $thousandsSeparator;
-    private ISOCurrencies $currencies;
+    private Currencies $currencies;
 
     public function __construct(string $format, string $decimalSeparator = '.', string $thousandsSeparator = ',')
     {
         $this->format = $format;
         $this->decimalSeparator = $decimalSeparator;
         $this->thousandsSeparator = $thousandsSeparator;
-        $this->currencies = new ISOCurrencies();
+        $this->currencies = MoneyFactory::getCurrencies();
     }
 
     public function format(Money $money): string
     {
-        $float = $money->absolute()->getAmount() / 100.0;
-        $decimals = $this->currencies->subunitFor($money->getCurrency());
+        $currencySubunit = $this->currencies->subunitFor($money->getCurrency());
+
+        $float = $money->absolute()->getAmount() / pow(10, $currencySubunit) * 1.0;
         $currency = $money->getCurrency()->getCode();
 
-        $amount = number_format($float, $decimals, $this->decimalSeparator, $this->thousandsSeparator);
+        $amount = number_format($float, $currencySubunit, $this->decimalSeparator, $this->thousandsSeparator);
 
         $formatted = str_replace(
             ['{CURRENCY}', '{AMOUNT}', '{SPACE}'],
