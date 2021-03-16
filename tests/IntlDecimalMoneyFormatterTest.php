@@ -43,6 +43,8 @@ class IntlDecimalMoneyFormatterTest extends TestCase
             [10010, 'GBP', IntlDecimalMoneyFormatter::AMOUNT_SPACE_CURRENCY_FORMAT, ',', ' ', '100,10 GBP'],
             [10010, 'GBP', IntlDecimalMoneyFormatter::CURRENCY_AMOUNT_FORMAT, ',', ' ', 'GBP100,10'],
             [10010, 'GBP', IntlDecimalMoneyFormatter::CURRENCY_SPACE_AMOUNT_FORMAT, ',', ' ', 'GBP 100,10'],
+            [10010, 'TND', IntlDecimalMoneyFormatter::CURRENCY_SPACE_AMOUNT_FORMAT, ',', ' ', 'TND 10,010'], // 3 digits subunit
+            [10010, 'CLP', IntlDecimalMoneyFormatter::CURRENCY_SPACE_AMOUNT_FORMAT, ',', ' ', 'CLP 10 010'], // 0 digits subunit
         ];
     }
 }
