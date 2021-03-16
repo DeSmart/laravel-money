@@ -6,6 +6,8 @@
 
 Package provides a simple wrapper around `\Money\Money` objects creation and formatting.
 
+> Minimum Laravel version is **8.12.0**
+
 ## Installation
 To install the package via Composer, simply run the following command:
 ```
