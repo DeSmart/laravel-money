@@ -54,12 +54,16 @@ registered, default `\Money\Formatter\DecimalMoneyFormatter` formatter will be u
 This package ships with an additional formatter, `\DeSmart\Larvel\Money\Formatters\IntlDecimalMoneyFormatter`, which 
 allows defining a particular format in which money value should be presented. There are few defaults (as consts):
 - display only amount (`{AMOUNT}`),
-- display currency and amount (`{CURRENCY}{AMOUNT}`),
-- display currency and amount, separated with space (`{CURRENCY}{SPACE}{AMOUNT}`),
-- display amount and currency (`{AMOUNT}{CURRENCY}`),
-- display amount and currency, separated with space (`{AMOUNT}{SPACE}{CURRENCY}`).
+- display currency code and amount (`{CURRENCY}{AMOUNT}`),
+- display currency code and amount, separated with space (`{CURRENCY}{SPACE}{AMOUNT}`),
+- display amount and currency code(`{AMOUNT}{CURRENCY}`),
+- display amount and currency code, separated with space (`{AMOUNT}{SPACE}{CURRENCY}`).
+- display currency symbol and amount (`{CURRENCY_SYMBOL}{AMOUNT}`),
+- display currency symbol and amount, separated with space (`{CURRENCY_SYMBOL}{SPACE}{AMOUNT}`),
+- display amount and currency symbol (`{AMOUNT}{CURRENCY_SYMBOL}`),
+- display amount and currency symbol, separated with space (`{AMOUNT}{SPACE}{CURRENCY_SYMBOL}`).
 
-Any other format can be used, as long as it utilizes three keywords: `{AMOUNT}`, `{CURRENCY}`, `{SPACE}`.
+Any other format can be used, as long as it utilizes four keywords: `{AMOUNT}`, `{CURRENCY}`, `{CURRENCY_SYMBOL}`, `{SPACE}`.
 Along with the format, decimal and thousands separators can be defined.
   
 Registering formatter is fairly easy:
@@ -70,6 +74,8 @@ Registering formatter is fairly easy:
     new \DeSmart\Larvel\Money\Formatters\IntlDecimalMoneyFormatter('{AMOUNT}{CURRENCY}', ',', ' ')
 );
 ```
+
+> Credits to [PruvoNet/price-extractor](https://github.com/PruvoNet/price-extractor) for the currency symbols list.
 
 ### Laravel model attribute casting
 Package provides also a custom casting class that allows to use `\Money\Money` objects with Laravel models.

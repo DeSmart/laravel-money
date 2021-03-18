@@ -11,7 +11,7 @@ class MoneyFormatter
 {
     private static ?\Money\MoneyFormatter $formatter = null;
 
-    public static function formatUsing(\Money\MoneyFormatter $formatter)
+    public static function formatUsing(\Money\MoneyFormatter $formatter): void
     {
         self::$formatter = $formatter;
     }

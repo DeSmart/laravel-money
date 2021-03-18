@@ -12,7 +12,7 @@ use Money\Money;
 class MoneyFactory
 {
     public static string $defaultCurrency = 'EUR';
-    public static ?Currencies $currencies = null;
+    private static ?Currencies $currencies = null;
 
     public static function fromFloat(float $amount, ?string $currency = null): Money
     {
